@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Frontend Mentor | Advice generator app</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <style>
+    body {
+      background-color: hsl(218, 23%, 16%);
+      font-family: 'Manrope', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: hsl(217, 19%, 24%);
+      color: hsl(193, 38%, 86%);
+      text-align: center;
+      padding: 40px 30px 60px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+    }
+
+    .card h1 {
+      font-size: 14px;
+      color: hsl(150, 100%, 66%);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .card p {
+      font-size: 24px;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+
+    .divider {
+      width: 100%;
+      margin: 20px 0;
+    }
+
+    .dice-button {
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: hsl(150, 100%, 66%);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .dice-button:hover {
+      box-shadow: 0 0 20px hsl(150, 100%, 66%);
+    }
+
+    .dice-button img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .attribution {
+      font-size: 11px;
+      text-align: center;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .attribution a {
+      color: hsl(228, 45%, 44%);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1 id="advice-id">Advice #117</h1>
+    <p id="advice-text">"It is easy to sit up and take notice, what's difficult is getting up and taking action."</p>
+    <img src="images/pattern-divider-desktop.svg" alt="divider" class="divider">
+    <button class="dice-button" id="dice-button">
+      <img src="images/icon-dice.svg" alt="dice icon">
+    </button>
+  </div>
+
+  <script>
+    const adviceId = document.getElementById('advice-id');
+    const adviceText = document.getElementById('advice-text');
+    const diceButton = document.getElementById('dice-button');
+
+    async function fetchAdvice() {
+      try {
+        const res = await fetch('https://api.adviceslip.com/advice');
+        const data = await res.json();
+        adviceId.textContent = `Advice #${data.slip.id}`;
+        adviceText.textContent = `"${data.slip.advice}"`;
+      } catch (error) {
+        adviceText.textContent = "Oops! Could not fetch advice.";
+      }
+    }
+
+    diceButton.addEventListener('click', fetchAdvice);
+  </script>
+
+</body>
+</html>
